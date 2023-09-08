@@ -1,11 +1,17 @@
 import random
 import words
 
+def generate():
+    word_guess = random.choice(words.word)
+    return word_guess
+
 error = 0
-word_guess = random.choice(words.word)
 guesses = []
-print(word_guess)
+count = 0
 while error < 8:
+    if count == 0:
+        word_guess = generate()
+        print(word_guess)
     guess = input("Make a guess: ").lower()
     if len(guess) == 1:
         if guess in guesses:
@@ -21,9 +27,17 @@ while error < 8:
             print("Wrong")
             error+=1
         if len(guesses) == len(word_guess):
-            break
+            print(guesses)
+            try_again = input("Try again? y/n: ").lower()
+            if try_again == 'y':
+                error = 0
+                guesses.clear()
+                count = 0
+                continue
+            else:
+                break
     else:
         print("Letters only")
         continue
+    count+=1
 
-print(guesses)
