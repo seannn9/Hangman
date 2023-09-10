@@ -5,15 +5,24 @@ def generate():
     word_guess = random.choice(words.word)
     return word_guess
 
+def update(word_guess):
+    list = ['_' for _ in word_guess]
+    print(' '.join(list))
+
 error = 0
-guesses = []
 count = 0
+guesses = []
+
 while error < 8:
     if count == 0:
         word_guess = generate()
         print(word_guess)
+
+    update(generate())
+
     guess = input("Make a guess: ").lower()
-    if len(guess) == 1:
+
+    if len(guess) == 1: # checks if the guess is a single char
         if guess in guesses:
             print("Already guessed")
         elif guess in word_guess:
@@ -37,7 +46,6 @@ while error < 8:
             else:
                 break
     else:
-        print("Letters only")
-        continue
+        print("Letters only") 
     count+=1
 
