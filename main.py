@@ -1,8 +1,9 @@
-import random
-import words
+import requests
 
 def generate():
-    word_guess = random.choice(words.word)
+    url = "https://random-word-api.herokuapp.com/word"
+    response = requests.get(url)
+    word_guess = response.json()[0]
     return word_guess
 
 def main():
@@ -14,7 +15,6 @@ def main():
     while error < 8:
         if count == 0:
             word_guess = generate()
-            print(word_guess)
             list = ['_' for _ in word_guess]
             print(' '.join(list))
 
@@ -41,10 +41,11 @@ def main():
                     print(' '.join(list))
             else:
                 print("Wrong")
+                print(' '.join(list))
                 error+=1
 
             if len(guesses) == len(word_guess): # if player wins
-                print(guesses)
+                print(f"You guessed the word: {''.join(guesses)}")
                 try_again = input("Try again? y/n: ").lower()
                 if try_again == 'y':
                     error = 0
@@ -55,7 +56,15 @@ def main():
                     break
         else:
             print("Letters only") 
-        count+=1
+
+        if error == 7:
+            print("Last try!")
+
+        count+=1 
+    
+    if error == 8:
+        print(f"You ran out of tries, the word is {word_guess.upper()}")
+
 
 if __name__ == '__main__':
     main()
