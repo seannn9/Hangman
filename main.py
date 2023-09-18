@@ -1,12 +1,12 @@
 import requests
 
-def generate():
+def generate(): # fetch random word from random word api
     url = "https://random-word-api.herokuapp.com/word"
     response = requests.get(url)
     word_guess = response.json()[0]
     return word_guess
 
-def draw(error):
+def draw(error): # draw hangman on command line
     if error == 0:
         print("----------\n|\n|\n|\n|\n|\n|")
     elif error == 1:
@@ -28,9 +28,10 @@ def main():
     error = 0
     count = 0
     guesses = []
+    wrong_guesses = []
     indices = []
 
-    while error < 8:
+    while error < 7:
         if count == 0: # start
             word_guess = generate()
             list = ['_' for _ in word_guess]
@@ -59,9 +60,13 @@ def main():
                     list[word_guess.index(guess)] = guess
                     print(' '.join(list))
             else:
-                print("Wrong")
-                print(' '.join(list))
-                error+=1
+                if guess in wrong_guesses:
+                    print("Already guessed")
+                else:
+                    print("Wrong")
+                    print(' '.join(list))
+                    error+=1
+                wrong_guesses.append(guess)
 
             if len(guesses) == len(word_guess): # if player wins
                 print(f"You guessed the word: {word_guess}")
