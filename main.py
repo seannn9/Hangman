@@ -23,14 +23,15 @@ def draw(error):
         print("----------\n|        |\n|        O\n|       /|\\\n|       /\n|\n|")
     elif error == 7:
         print("----------\n|        |\n|        O\n|       /|\\\n|       / \\\n|\n|")
+
 def main():
     error = 0
     count = 0
     guesses = []
     indices = []
 
-    while error < 7:
-        if count == 0:
+    while error < 8:
+        if count == 0: # start
             word_guess = generate()
             list = ['_' for _ in word_guess]
             print(' '.join(list))
@@ -74,16 +75,13 @@ def main():
                     break
         else:
             print("Letters only") 
-
         if error == 6:
             print("Last try!")
 
-        count+=1 
-    
+        count+=1  
     if error == 7:
         draw(error)
         print(f"You ran out of tries, the word is {word_guess.upper()}")
-
 
 if __name__ == '__main__':
     main()
